@@ -1,3 +1,4 @@
+import is from '@sindresorhus/is';
 import * as semver from 'semver';
 import { is as isStable } from 'semver-stable';
 import type { VersioningApi } from '../types';
@@ -34,8 +35,9 @@ export const isValid = (input: string): string => validRange(input);
 export const isVersion = (input: string): string => valid(input);
 
 const isSingleVersion = (constraint: string): string =>
-  isVersion(constraint) ||
-  (constraint.startsWith('=') && isVersion(constraint.substring(1).trim()));
+  is.string(constraint) &&
+  (isVersion(constraint) ||
+    (constraint.startsWith('=') && isVersion(constraint.substring(1).trim())));
 
 export const api: VersioningApi = {
   equals,
